@@ -17,6 +17,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+    	
         Scanner scanner = new Scanner(System.in);
         AdminService adminService = new AdminService();
         CustomerService customerService = new CustomerService();
@@ -25,13 +26,12 @@ public class Main {
         RoomService roomService = new RoomService();
         
         LandLord landlord = new LandLord();
-        landlord.setName("Mr.Smith");
-        landlord.setAddress("123 Main Street");
+        landlord.setName("Mr.Sachin.Sir");
+        landlord.setAddress("123,Indrapuri Bhopal");
         landlord.setStatus("Approved");
         
         Admin admin = new Admin();
-        admin.setAdmin_name("Kanak");
-        admin.setEmail_id("thakurkanak02@gmail.com");
+       
         adminService.create(admin);
 
         landlord.setAdmin(admin);
@@ -39,16 +39,18 @@ public class Main {
         
         while (true) {
             System.out.println("Welcome to Hotel Management System");
-            System.out.println("1. Add Admin");
-            System.out.println("2. Add Customer");
-            System.out.println("3. Add Hotel");
-            System.out.println("4. Add Room");
-            System.out.println("5. List all Admins");
-            System.out.println("6. List all Customers");
-            System.out.println("7. List all Hotels");
-            System.out.println("8. List all Landlords");
-            System.out.println("9. List all Rooms");
-            System.out.println("10. Exit");
+            System.out.println("1.  Add Admin");
+            System.out.println("2.  Add Customer");
+            System.out.println("3.  Update Customer");
+            System.out.println("4.  Delete Customer");
+            System.out.println("5.  Add Hotel");
+            System.out.println("6.  Add Room");
+            System.out.println("7.  List all Admins");
+            System.out.println("8.  List all Customers");
+            System.out.println("9.  List all Hotels");
+            System.out.println("10. List all Landlords");
+            System.out.println("11. List all Rooms");
+            System.out.println("12. Exit");
             System.out.print("Enter your choice: ");
             
             int choice = scanner.nextInt();
@@ -67,7 +69,10 @@ public class Main {
 
                     
                     adminService.create(admin);
+                    System.out.println("Admin added successfully.");
                     break;
+                    
+                
                     
                 case 2:
                     System.out.println("You selected: Add Customer");
@@ -86,9 +91,48 @@ public class Main {
 
                     
                     customerService.create(customer);
+                    System.out.println("Customer added successfully.");
                     break;
                     
                 case 3:
+                    System.out.println("You selected: Update Customer");
+                    System.out.print("Enter customer ID to update: ");
+                    int customerIdToUpdate = scanner.nextInt();
+                    Customer existingCustomer = customerService.findCustomerById(customerIdToUpdate);
+                    if (existingCustomer != null) {
+                        System.out.print("Enter new name (or leave blank to keep existing): ");
+                        String newName = scanner.next();
+                        if (!newName.isEmpty()) {
+                            existingCustomer.setCustomer_name(newName);
+                        }
+                        System.out.print("Enter new phone number (or leave blank to keep existing): ");
+                        String newPhoneNumber = scanner.next();
+                        if (!newPhoneNumber.isEmpty()) {
+                            existingCustomer.setCustomer_phnone_num(newPhoneNumber);
+                        }
+                        System.out.print("Enter new Aadhar number (or leave blank to keep existing): ");
+                        String newAadharNumber = scanner.next();
+                        if (!newAadharNumber.isEmpty()) {
+                            existingCustomer.setCustomer_aadhar_num(newAadharNumber);
+                        }
+
+                        customerService.update(existingCustomer);
+                        System.out.println("Customer updated successfully.");
+                    } else {
+                        System.out.println("Customer with ID " + customerIdToUpdate + " not found.");
+                    }
+                    break;
+
+                case 4:
+                    System.out.println("You selected: Delete Customer");
+                    System.out.print("Enter customer ID to delete: ");
+                    int customerIdToDelete = scanner.nextInt();
+                    customerService.delete(customerIdToDelete);
+                    System.out.println("Customer deleted successfully.");
+                    break;
+
+                    
+                case 5:
                    
                     System.out.println("You selected: Add Hotel");
                     System.out.print("Enter hotel name: ");
@@ -111,9 +155,10 @@ public class Main {
 
                     
                     hotelService.create(hotel);
+                    System.out.println("Hotel added successfully.");
                     break;
                   
-                case 4:
+                case 6:
                     System.out.println("You selected: Add Room");
                    
                     System.out.print("Enter room price: ");
@@ -126,8 +171,8 @@ public class Main {
                     room.setRoom_price(roomPrice);
                     room.setRoom_status(roomStatus);
                     
-                    int customerId = 1; // Example customer ID
-                    int hotelId = 1;
+                    int customerId = 2; // Example customer ID
+                    int hotelId = 2;
                     
                     
                     Customer customer1 =customerService.findCustomerById(1); // Retrieve customer by ID
@@ -137,9 +182,10 @@ public class Main {
                     room.setHotel(hotel1);
                    
                     roomService.create(room);
+                    System.out.println("Room added successfully.");
                     break;
                     
-                case 5:
+                case 7:
                     System.out.println("You selected: List all Admins");
                     // Call method to list all admins
                     List<Admin> admins = adminService.readAllAdmin();
@@ -147,10 +193,11 @@ public class Main {
                         System.out.println("Admin ID: " + admin1.getAdmin_id());
                         System.out.println("Admin Name: " + admin1.getAdmin_name());
                         System.out.println("Admin Email: " + admin1.getEmail_id());
-                        System.out.println();
+                        System.out.println("--------------------------");
                     }
                     break;
-                case 6:
+                    
+                case 8:
                     System.out.println("You selected: List all Customers");
                     //method to list all customers
                     List<Customer> customers = customerService.readAllCustomer();
@@ -159,10 +206,11 @@ public class Main {
                         System.out.println("Customer Name: " + customer11.getCustomer_name());
                         System.out.println("Customer Phone Number: " + customer11.getCustomer_phnone_num());
                         System.out.println("Customer Aadhar Number: " + customer11.getCustomer_aadhar_num());
-                        System.out.println();
+                        System.out.println("---------------------------");
                     }
                     break;
-                case 7:
+                    
+                case 9:
                     System.out.println("You selected: List all Hotels");
                     //method to list all hotels
                     List<Hotel> hotels = hotelService.readAllHotel();
@@ -172,10 +220,11 @@ public class Main {
                         System.out.println("Hotel Location: " + hotel11.getHotel_location());
                         System.out.println("Number of Rooms: " + hotel11.getNum_of_rooms());
                         System.out.println("Rating: " + hotel11.getRating());
-                        System.out.println();
+                        System.out.println("--------------------------");
                     }
                     break;
-                case 8:
+                    
+                case 10:
                     System.out.println("You selected: List all Landlords");
                     // method to list all landlords
                     List<LandLord> landlords = landlordService.readAllLandlord();
@@ -184,10 +233,11 @@ public class Main {
                         System.out.println("Name: " + landlord1.getName());
                         System.out.println("Address: " + landlord1.getAddress());
                         System.out.println("Status: " + landlord1.getStatus());
-                        System.out.println();
+                        System.out.println("-----------------------------");
                     }
                     break;
-                case 9:
+                    
+                case 11:
                     System.out.println("You selected: List all Rooms");
                     // method to list all rooms
                     List<Room> rooms = roomService.readAllRooms();
@@ -197,15 +247,11 @@ public class Main {
                         System.out.println("Status: " + room1.getRoom_status());
                         System.out.println("Hotel ID: " + room1.getHotel().getHotel_id());
                         System.out.println("Customer ID: " + (room1.getCustomer() != null ? room1.getCustomer().getCustomer_id() : "Not booked"));
-                        System.out.println();
+                        System.out.println("-----------------------------");
                     }
                     break;
-                
-                
-                	
-     
-                
-                case 10:
+             
+                case 12:
                     System.out.println("Exiting...");
                     scanner.close();
                     return; 
